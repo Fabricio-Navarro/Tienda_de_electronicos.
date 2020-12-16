@@ -33,10 +33,10 @@ public class Plataforma
     Cajas buy= new Cajas();
     Producto pr= new Producto();
     Numero_de_tienda TI= new Numero_de_tienda();
-    Oficinas ofi=new Oficinas();
+    Oficinas ofi[]=new Oficinas[5];
     Empleado em= new Empleado();
     Bodega bod= new Bodega();
-    int Compra= 0,cont=0,cont2=0,con;
+    int Compra= 0,cont=0,cont2=0,con,m=0;
    
     
     public void Menu_principal(){
@@ -55,6 +55,7 @@ public class Plataforma
                 + "\n8.  Cerrar sesion empleado."
                 + "\n9.  Agregar comentario."
                 + "\n10. Opciones de bodega."
+                + "\n11. Opciones de presupuesto."
                 + "\n0. Salir."));
         
         switch(Tienda){
@@ -103,7 +104,10 @@ public class Plataforma
                     JOptionPane.showMessageDialog(null, "Ya han cerrado sesion.");
                 }
             break;
-            case 9:ofi.Reseñas();
+            case 9: if(m==0){
+                        inicializa();
+                    }
+                    coments();
             break;
             case 10: int op=0;
                 do{
@@ -122,6 +126,8 @@ public class Plataforma
                     }
                 }while(op!=0);
             break;
+            case 11: bod.uso_presupuesto();
+                break;
         }
         }while(Tienda!=0);
     }
@@ -219,7 +225,7 @@ public class Plataforma
                     if(op==1){
                         int ID_cliente= Integer.parseInt(JOptionPane.showInputDialog("Escriba su numero de tarjeta de membresia."
                                 + "\n\nSi no sabe cual es, digite 0 y seleccione"
-                                + "\nla opcion 4 en el menu principal."));
+                                + "\nla opcion 5 en el menu principal."));
                         
                         if(ID_cliente==customer.getTarjeta()){                     
                             con= Integer.parseInt(JOptionPane.showInputDialog("Cliente:  "+customer.getNombre()+
@@ -254,7 +260,7 @@ public class Plataforma
                     if(op==1){
                         int ID_cliente= Integer.parseInt(JOptionPane.showInputDialog("Escriba su numero de tarjeta de membresia."
                                 + "\n\nSi no sabe cual es, digite 0 y seleccione"
-                                + "\nla opcion 4 en el menu principal."));
+                                + "\nla opcion 5 en el menu principal."));
                         
                         if(ID_cliente==customer.getTarjeta()){                     
                             con= Integer.parseInt(JOptionPane.showInputDialog("Cliente:  "+customer.getNombre()+
@@ -289,7 +295,7 @@ public class Plataforma
                     if(op==1){
                         int ID_cliente= Integer.parseInt(JOptionPane.showInputDialog("Escriba su numero de tarjeta de membresia."
                                 + "\n\nSi no sabe cual es, digite 0 y seleccione"
-                                + "\nla opcion 4 en el menu principal."));
+                                + "\nla opcion 5 en el menu principal."));
                         
                         if(ID_cliente==customer.getTarjeta()){                     
                             con= Integer.parseInt(JOptionPane.showInputDialog("Cliente:  "+customer.getNombre()+
@@ -324,7 +330,7 @@ public class Plataforma
                     if(op==1){
                         int ID_cliente= Integer.parseInt(JOptionPane.showInputDialog("Escriba su numero de tarjeta de membresia."
                                 + "\n\nSi no sabe cual es, digite 0 y seleccione"
-                                + "\nla opcion 4 en el menu principal."));
+                                + "\nla opcion 5 en el menu principal."));
                         
                         if(ID_cliente==customer.getTarjeta()){                     
                             con= Integer.parseInt(JOptionPane.showInputDialog("Cliente:  "+customer.getNombre()+
@@ -359,7 +365,7 @@ public class Plataforma
                     if(op==1){
                         int ID_cliente= Integer.parseInt(JOptionPane.showInputDialog("Escriba su numero de tarjeta de membresia."
                                 + "\n\nSi no sabe cual es, digite 0 y seleccione"
-                                + "\nla opcion 4 en el menu principal."));
+                                + "\nla opcion 5 en el menu principal."));
                         
                         if(ID_cliente==customer.getTarjeta()){                     
                             con= Integer.parseInt(JOptionPane.showInputDialog("Cliente:  "+customer.getNombre()+
@@ -389,8 +395,98 @@ public class Plataforma
                 
         }
     }
+    
+    public void coments(){
+        int op2=0;
+        do{
+            op2= Integer.parseInt(JOptionPane.showInputDialog("Comentarios.\n\n"
+                    + "1. Agregar comentarios."
+                    + "\n2. Ver comentarios."
+                    + "\n0. Salir"));
+            switch(op2){
+                case 1: reseñas();
+                    break;
+                case 2: ver_coments();
+                    break;
+                case 0:
+                    break;
+                default: JOptionPane.showMessageDialog(null, "Seleccione una opcion valida.");
+            }
+        }while(op2!=0);
+    }
+    
+    public void reseñas(){
+        if(m<5){
+            String Ubic=JOptionPane.showInputDialog("Escriba la ubicacion de la tienda.");
+            Ubic.toLowerCase();
+        
+            if(Ubic.equals("belen")||Ubic.equals("san jose")||Ubic.equals("escazu")||Ubic.equals("guapiles"))
+            {
+                String Nombre=JOptionPane.showInputDialog("Escriba el nombre del cliente.");
+                String Comentarios=JOptionPane.showInputDialog("En esta seccion escriba\nlos comentarios que desea\nagregar.");
+        
+                ofi[m]= new Oficinas(Ubic, Comentarios, Nombre);
+                m++;
+                }else{
+                JOptionPane.showMessageDialog(null, "Esta ubicacion no esta disponible.\n\nReintente.");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Se ha alcanzado el limite de comentarios.");
+            
+        }
+        
+    }
+    
+    public void ver_coments(){
+        int op4=0;
+        op4= Integer.parseInt(JOptionPane.showInputDialog("Seleccione los comentarios que\ndesea revisar.\n\n"
+                + "1. "+ofi[0].getNombre()
+                + "\n2. "+ofi[1].getNombre()
+                + "\n3. "+ofi[2].getNombre()
+                + "\n4. "+ofi[3].getNombre()
+                + "\n5. "+ofi[4].getNombre()
+                + "\n\n0. Salir."));
+        switch(op4){
+            case 1: JOptionPane.showMessageDialog(null, "Ubicacion: "+ofi[0].getUbic()
+                                                        + ".\n\nNombre: "+ofi[0].getNombre()
+                                                        + ".\n\nComentario: "+ofi[0].getComentarios());
+                break;
+            case 2: JOptionPane.showMessageDialog(null, "Ubicacion: "+ofi[1].getUbic()
+                                                        + ".\n\nNombre: "+ofi[1].getNombre()
+                                                        + ".\n\nComentario: "+ofi[1].getComentarios());
+                break;
+            case 3: JOptionPane.showMessageDialog(null, "Ubicacion: "+ofi[2].getUbic()
+                                                        + ".\n\nNombre: "+ofi[2].getNombre()
+                                                        + ".\n\nComentario: "+ofi[2].getComentarios());
+                break;
+            case 4: JOptionPane.showMessageDialog(null, "Ubicacion: "+ofi[3].getUbic()
+                                                        + ".\n\nNombre: "+ofi[3].getNombre()
+                                                        + ".\n\nComentario: "+ofi[3].getComentarios());
+                break;
+            case 5: JOptionPane.showMessageDialog(null, "Ubicacion: "+ofi[4].getUbic()
+                                                        + ".\n\nNombre: "+ofi[4].getNombre()
+                                                        + ".\n\nComentario: "+ofi[4].getComentarios());
+                break;
+            case 0:
+                break;
+            default: JOptionPane.showMessageDialog(null, "Seleccione una opcion valida.");
+        }
+    }
 
+    public void inicializa(){
+        String Ubic="";
+        String Comentarios="";
+        String Nombre="";
+        
+        for(int i=0; i<5; i++){
+            ofi[i]= new Oficinas(Ubic, Comentarios, Nombre);
+        }
+    }
 }
+
+package sem6_t.electronicos;
+
+import javax.swing.JOptionPane;
 
 public class Producto 
 {
@@ -567,13 +663,18 @@ public class Producto
      public void promociones(){
     JOptionPane.showMessageDialog(null, "***********   Productos a la venta en todas las tiendas   ***********\n\n\n"
             + Categoria1+".                                 Codigo "+Codigo_de_barras1+".  Precio: ₡"+Precio1+"\n"
-            + Categoria2+".                                   Codigo "+Codigo_de_barras2+".  Precio: ₡"+Precio2+"\n"
-            + Categoria3+".                             Codigo "+Codigo_de_barras3+".  Precio: ₡"+Precio3+"\n"
-            + Categoria4+".         Codigo "+Codigo_de_barras4+".  Precio: ₡"+Precio4+"\n"
-            + Categoria5+".                                                  Codigo "+Codigo_de_barras5+".  Precio: ₡"+Precio5+"\n"
-            + Categoria6+".                               Codigo "+Codigo_de_barras6+".  Precio: ₡"+Precio6);
+            + Categoria2+".                                  Codigo "+Codigo_de_barras2+".  Precio: ₡"+Precio2+"\n"
+            + Categoria3+".                                  Codigo "+Codigo_de_barras3+".  Precio: ₡"+Precio3+"\n"
+            + Categoria4+".                                 Codigo "+Codigo_de_barras4+".  Precio: ₡"+Precio4+"\n"
+            + Categoria5+".     Codigo "+Codigo_de_barras5+".  Precio: ₡"+Precio5+"\n"
+            + Categoria6+".       Codigo "+Codigo_de_barras6+".  Precio: ₡"+Precio6);
     }
 }
+
+package sem6_t.electronicos;
+
+import javax.swing.JOptionPane;
+
 
 public class Numero_de_tienda 
 {
@@ -727,6 +828,10 @@ public class Numero_de_tienda
     }
 }
 
+package sem6_t.electronicos;
+
+import javax.swing.JOptionPane;
+
 public class Empleado {
 
     private String Nombre;
@@ -820,6 +925,10 @@ public class Empleado {
 
 }
 
+package sem6_t.electronicos;
+
+import javax.swing.JOptionPane;
+
 public class Cliente 
 {
     private String Numero_de_cedula;
@@ -912,6 +1021,11 @@ public class Cliente
                         
     }
 }
+
+package sem6_t.electronicos;
+
+import javax.swing.JOptionPane;
+
 
 public class Bodega 
 {
@@ -1183,7 +1297,38 @@ public class Bodega
         }
     }while(selec!=0);
     }
+    
+    public void uso_presupuesto(){
+        int op=0;
+        
+        do{
+            op= Integer.parseInt(JOptionPane.showInputDialog("¿Que accion desea realizar?\n\n"
+                    + "1. Ver presupuesto."
+                    + "\n2. Agregar fondos al presupuesto."
+                    + "\n0. Salir"));
+            
+            switch(op){
+                case 1:
+                    JOptionPane.showMessageDialog(null, "El presupuesto actual es de:  ₡"+caj.getPresupuesto());
+                    break;
+                case 2:
+                    int nuevo=0;
+                    nuevo= Integer.parseInt(JOptionPane.showInputDialog("Digite la cantidad que desea\nagregar al presupuesto."));
+                    nuevo+=caj.getPresupuesto();
+                    caj.setPresupuesto(nuevo);
+                    JOptionPane.showMessageDialog(null, "********** Agregado con exito. **********\n\n"
+                            + "El presupuesto ahora es de: ₡"+caj.getPresupuesto());
+                    break;
+                case 0:
+                    break;
+                default: JOptionPane.showMessageDialog(null, "Seleccione una opcion valida.");
+            }
+        }while(op!=0);
+    }
 }
+
+package sem6_t.electronicos;
+
 
 public class Cajas 
 {   
@@ -1202,16 +1347,10 @@ public class Cajas
         this.presupuesto = presupuesto;
     }
     
-    
-    public void aumento_presupuesto(){
-        //Solicita un aumento del presupuesto.
-    }
-    
-    public void agregar_fondo(){
-        //Se agrega al presupuesto el monto
-        //correspondiente de cada compra.
-    }
 }
+
+package sem6_t.electronicos;
+
 
 public class Oficinas 
 {
@@ -1219,10 +1358,10 @@ public class Oficinas
     private String Comentarios;
     private String Nombre;
     
-    public Oficinas(){
-        Ubic="";
-        Comentarios="";
-        Nombre="";
+    public Oficinas(String Ubic, String Comentarios, String Nombre){
+        this.Ubic=Ubic;
+        this.Comentarios=Comentarios;
+        this.Nombre=Nombre;
     }
 
     public String getUbic() {
@@ -1248,16 +1387,5 @@ public class Oficinas
         this.Nombre = Nombre;
     }
     
-  public void Reseñas(){
-   Ubic=JOptionPane.showInputDialog("Escriba la ubicacion=");
-   Ubic.toLowerCase();
-   if(Ubic.equals("belen")||Ubic.equals("san jose")||Ubic.equals("escazu")||Ubic.equals("guapiles")){
-   Nombre=JOptionPane.showInputDialog("Escriba su nombre");
-   Comentarios=JOptionPane.showInputDialog("Escriba su reseña");
-   }else{JOptionPane.showMessageDialog(null,"No hay ninguna tienda en esta zona");
-   }        
-  }  
-  
-  
-  
 }
+
